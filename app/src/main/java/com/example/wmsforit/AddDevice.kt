@@ -2,6 +2,7 @@ package com.example.wmsforit
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,9 +12,18 @@ import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import com.budiyev.android.codescanner.AutoFocusMode
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.CodeScannerView
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
+import com.budiyev.android.codescanner.ScanMode
 
 
 class AddDevice : AppCompatActivity() {
@@ -22,21 +32,21 @@ class AddDevice : AppCompatActivity() {
     var textview: TextView? = null
     var arrayList: ArrayList<String>? = null
     var dialog: Dialog? = null
+    private lateinit var codeScanner: CodeScanner
 
     @SuppressLint("MissingInflatedId", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
 
+        val msg = intent.getStringExtra("serialScan")
+        findViewById<EditText>(R.id.editTextText2).setText(msg)
+
         // assign variable
         textview = findViewById(R.id.bt_Select_course)
 
-
-        // initialize array list
         // initialize array list
         arrayList = ArrayList()
-
-        // set value in array list
 
         // set value in array list
         arrayList!!.addAll(listOf("UPS","Cashier printer","Barcode printer","Cash Drawer","Price Checker","Printer HP Deskjet","Monitor PC","Battery UPS","Cashier Scanner","Zebex scanner","Switch network"))
@@ -95,6 +105,11 @@ class AddDevice : AppCompatActivity() {
 
         })
 
-
+        findViewById<ImageView>(R.id.imageButton)?.setOnClickListener(){
+            val intent = Intent(this@AddDevice,ScanQrCodeActivity::class.java)
+            startActivity(intent)
+        }
     }
+
+
 }
